@@ -34,15 +34,19 @@ pub struct Config {
     pub region: String,
 
     /// The authentication key to use when validating group credentials, hex-encoded.
-    #[arg(long)]
+    /// SWARM: may also come from the environment (CALLING_AUTH_KEY), so that the secret does not
+    /// have to appear on the command line, where every local user can read it (/proc/*/cmdline).
+    #[arg(long, env = "CALLING_AUTH_KEY", hide_env_values = true)]
     pub authentication_key: String,
 
     /// The authentication key to use when validating zero-knowledge credentials, base64-encoded.
-    #[arg(long)]
+    /// SWARM: may also come from the environment (CALLING_ZKPARAMS), for the same reason.
+    #[arg(long, env = "CALLING_ZKPARAMS", hide_env_values = true)]
     pub zkparams: String,
 
     /// The authentication key to use when validating zero-knowledge credentials, base64-encoded.
-    #[arg(long)]
+    /// SWARM: may also come from the environment (CALLING_OLD_ZKPARAMS), for the same reason.
+    #[arg(long, env = "CALLING_OLD_ZKPARAMS", hide_env_values = true)]
     pub old_zkparams: Option<String>,
 
     /// Deployment version of the frontend. Appears as a tag in metrics and in logging.
